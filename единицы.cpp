@@ -2,23 +2,6 @@
 #include <vector>
 using namespace std;
 
-const int MOD = 1000000007;
-
-vector<vector<int>> memo;
-
-int binomial(int n, int k) {
-	if (k == 0 || k == n) 
-		return 1;
-	if (k > n) 
-		return 0;
-
-	if (memo[n][k] != -1) 
-		return memo[n][k];
-
-	int result = (binomial(n - 1, k - 1) + binomial(n - 1, k)) % MOD;
-	memo[n][k] = result;
-	return result;
-}
 /*
 unsigned long long fac(int n, int k) {
 	if (n == k)
@@ -41,9 +24,18 @@ int main()
 
 	if (k > n - k) 
 		k = n - k;
-	memo.resize(n + 1, vector<int>(k + 1, -1));
+	vector<int> memo(k + 1, 0);
+	memo[0] = 1;
 
-	cout << binomial(n, k) << endl;
+	for (int i = 1; i <= n; i++) {
+		for (int j = k; j > 0; j--) {
+			if (j <= i) { 
+				memo[j] = (memo[j] + memo[j - 1]) % 1000000007;
+			}
+		}
+	}
+
+	cout << memo[k] << endl;
 
 	//cout << result % 1000000007;
 
