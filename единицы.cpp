@@ -1,7 +1,17 @@
 ﻿#include <iostream>
 #include <vector>
 using namespace std;
+const int MOD = 1000000007;
 
+long long mod_pow(long long a, long long b) {
+	long long res = 1;
+	while (b > 0) {
+		if (b % 2 == 1) res = (res * a) % MOD;
+		a = (a * a) % MOD;
+		b /= 2;
+	}
+	return res;
+}
 /*
 unsigned long long fac(int n, int k) {
 	if (n == k)
@@ -24,19 +34,14 @@ int main()
 
 	if (k > n - k) 
 		k = n - k;
-	vector<int> memo(k + 1, 0);
-	memo[0] = 1;
+	long long result = 1;
 
-	for (int i = 1; i <= n; i++) {
-		for (int j = k; j > 0; j--) {
-			if (j <= i) { 
-				memo[j] = (memo[j] + memo[j - 1]) % 1000000007;
-			}
-		}
+	for (int i = 1; i <= k; i++) {
+		result = (result * (n - i + 1)) % MOD;
+		result = (result * mod_pow(i, MOD - 2)) % MOD;  
 	}
 
-	cout << memo[k] << endl;
 
-	//cout << result % 1000000007;
+	cout << result;
 
 }
