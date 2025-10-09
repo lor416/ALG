@@ -11,11 +11,17 @@ int main() {
     ofstream fout("output.txt");
     char c;
     while (fin.get(c)) {
-        input.push_back(c);
+        if (!isspace(static_cast<unsigned char>(c))) {
+            input.push_back(c);
+        }
     }
     int n = (int)input.size(); 
     vector<vector<int>> V(n, vector<int>(n, 0));
     
+    for (int i = 0; i < input.size() - 1; i++)
+    {
+        V[i][i + 1] = (input[i] == input[i + 1]) ? 2 : 1;
+    }
     for (int i = n - 1; i >= 0; i--) {
         V[i][i] = 1; 
         for (int j = i + 1; j < n; j++) {
@@ -53,12 +59,16 @@ int main() {
     }
     for (char c : output) {
         fout << c;
+        cout << c;
     }
-    if (needA)
+    if (needA) {
         fout << a;
+        cout << ' ' << a << ' ';
+    }
     reverse(output.begin(), output.end());
     for (char c : output) {
         fout << c;
+        cout << c;
     }
 
 
